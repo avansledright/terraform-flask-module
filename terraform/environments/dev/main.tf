@@ -33,7 +33,7 @@ module "networking" {
 
   app_name           = var.app_name
   environment        = var.environment
-  vpc_cidr          = var.vpc_cidr
+  vpc_cidr           = var.vpc_cidr
   availability_zones = var.availability_zones
 }
 
@@ -41,7 +41,7 @@ module "alb" {
   source = "../../modules/alb"
 
   app_name          = var.app_name
-  environment        = var.environment
+  environment       = var.environment
   vpc_id            = module.networking.vpc_id
   public_subnet_ids = module.networking.public_subnet_ids
   app_port          = var.app_port
@@ -50,16 +50,19 @@ module "alb" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  app_name             = var.app_name
+  app_name              = var.app_name
   environment           = var.environment
-  vpc_id               = module.networking.vpc_id
-  public_subnet_ids    = module.networking.public_subnet_ids
+  vpc_id                = module.networking.vpc_id
+  public_subnet_ids     = module.networking.public_subnet_ids
   alb_security_group_id = module.alb.alb_security_group_id
-  target_group_arn     = module.alb.target_group_arn
-  app_image            = "${module.ecr.repository_url}:latest"
-  app_port             = var.app_port
-  app_count            = var.app_count
-  ecr_repository       = "${module.ecr.repository_url}"
+  target_group_arn      = module.alb.target_group_arn
+  app_image             = "${module.ecr.repository_url}:latest"
+  app_port              = var.app_port
+  app_count             = var.app_count
+  ecr_repository        = module.ecr.repository_url
+  # Optional
+  cpu_value    = 256
+  memory_value = 512
 }
 
 output "alb_dns_name" {

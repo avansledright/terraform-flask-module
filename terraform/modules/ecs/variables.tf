@@ -49,3 +49,15 @@ variable "ecr_repository" {
   description = "URL of the ECR repository"
   type        = string
 }
+
+variable "cpu_value" {
+  description = "Integer value of the CPU parameter"
+  type = number
+  default = 256
+}
+
+variable "memory_value" {
+  description = "Integer value of the Memory parameter"
+  type = number
+  default = 512
+}
