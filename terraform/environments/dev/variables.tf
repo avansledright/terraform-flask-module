@@ -44,3 +44,19 @@ variable "app_count" {
   type        = number
   default     = 2
 }
+
+variable "remote_state" {
+  description = "Use remote state"
+  type = bool
+  default = false
+}
+
+variable "terraform_state_bucket" {
+  description = "Bucket to store the statefile in"
+  type = string
+}
+
+variable "terraform_state_table" {
+  description = "Bucket to store the statefile in"
+  type = string
+}

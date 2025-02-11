@@ -11,12 +11,12 @@ terraform {
       version = "~> 5.0"
     }
   }
-
+  # Uncomment below for remote state and update the tfvars file
   # backend "s3" {
-  #   # Configure your backend here
-  #   # bucket = "your-terraform-state-bucket"
-  #   # key    = "dev/terraform.tfstate"
-  #   # region = "us-west-2"
+  #   bucket = var.terraform_state_bucket  
+  #   key    = "${var.app_name}/terraform.tfstate"
+  #   dynamodb_table = var.terraform_state_table
+  #   region = "us-east-1" 
   # }
 }
 
