@@ -7,10 +7,11 @@ This repository contains a Flask web application with automated infrastructure d
 ```
 project-root/
 ├── app/                    # Flask application
+├── Dockerfile            # Container configuration
 ├── terraform/             # Infrastructure as Code
 │   ├── environments/      # Environment-specific configurations
 │   └── modules/          # Reusable Terraform modules
-└── Dockerfile            # Container configuration
+
 ```
 
 ## Prerequisites
@@ -44,22 +45,15 @@ project-root/
    ```
 
 ## Deployment
+The deployment uses 100% Terraform to build and deploy your container. 
 
-1. Build and push the Docker image to ECR:
-   ```bash
-   aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin your-account-id.dkr.ecr.us-west-2.amazonaws.com
-   docker build -t hello-web .
-   docker tag hello-web:latest your-account-id.dkr.ecr.us-west-2.amazonaws.com/hello-web:latest
-   docker push your-account-id.dkr.ecr.us-west-2.amazonaws.com/hello-web:latest
-   ```
-
-2. Initialize Terraform:
+1. Initialize Terraform:
    ```bash
    cd terraform/environments/dev
    terraform init
    ```
 
-3. Apply the infrastructure:
+2. Apply the infrastructure:
    ```bash
    terraform apply
    ```

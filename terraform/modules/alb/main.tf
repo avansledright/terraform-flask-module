@@ -44,12 +44,14 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
 
   health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 10
+    enabled             = true
+    path                = "/health"
+    protocol            = "HTTP"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
     timeout             = 5
     interval            = 30
-    path                = "/"
-    port                = "traffic-port"
+    matcher             = "200"
   }
 }
 

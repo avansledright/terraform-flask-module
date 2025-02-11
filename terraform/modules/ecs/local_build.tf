@@ -19,3 +19,15 @@ resource "null_resource" "docker_build" {
     command = "../../../scripts/docker_build.sh ${data.aws_region.current.name} ${var.ecr_repository} ${local.app_path}"
   }
 }
+
+resource "null_resource" "ecs_deploy" {
+  triggers = {
+    app_hash = local.combined_hash
+  }
+
+  depends_on = [null_resource.docker_build]
+
+  provisioner "local-exec" {
+    command = "aws ecs update-service --cluster ${var.environment}-cluster --service ${var.app_name}-${var.environment}-service --force-new-deployment --region ${data.aws_region.current.name}"
+  }
+}
